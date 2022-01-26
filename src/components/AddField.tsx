@@ -2,33 +2,31 @@ import { TextField, Button, Checkbox } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 
 interface AddFieldProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  addTask: (completed: boolean) => void;
+  onCheck: () => void;
+  addTask: () => void;
   inputValue: string;
+  completed: boolean;
 }
 
 export const AddField: React.FC<AddFieldProps> = ({
   onChange,
   inputValue,
   addTask,
+  onCheck,
+  completed,
 }) => {
-  const [completed, setCompleted] = useState<boolean>(false);
-
-  const onCheckboxClick = () => {
-    setCompleted((prev) => !prev);
-    console.log(completed);
-  };
-
   return (
     <div className="field">
       <Checkbox
         className="checkbox"
         icon={<RadioButtonUncheckedIcon />}
         checkedIcon={<CheckCircleIcon />}
-        onClick={onCheckboxClick}
+        onClick={onCheck}
+        checked={completed}
       />
       <TextField
         placeholder="Введите текст задачи..."
@@ -38,7 +36,7 @@ export const AddField: React.FC<AddFieldProps> = ({
         fullWidth
       />
       <Button>
-        <AddIcon onClick={() => addTask(completed)} />
+        <AddIcon onClick={addTask} />
       </Button>
     </div>
   );

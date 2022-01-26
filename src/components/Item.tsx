@@ -7,11 +7,18 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 interface ItemProps {
+  id: number;
   text: string;
   completed: boolean;
+  onDelete: (id: number) => void;
 }
 
-export const Item: React.FC<ItemProps> = ({ text, completed }) => {
+export const Item: React.FC<ItemProps> = ({
+  text,
+  completed,
+  id,
+  onDelete,
+}) => {
   return (
     <ListItem>
       <div className="d-flex item">
@@ -25,7 +32,7 @@ export const Item: React.FC<ItemProps> = ({ text, completed }) => {
           <IconButton>
             <EditIcon style={{ fontSize: 20 }} />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => onDelete(id)}>
             <DeleteOutlineIcon style={{ fontSize: 20 }} />
           </IconButton>
         </div>
