@@ -35,8 +35,8 @@ export const AddField: React.FC<AddFieldProps> = ({
         variant="standard"
         fullWidth
       />
-      <Button>
-        <AddIcon onClick={addTask} />
+      <Button onClick={addTask}>
+        <AddIcon />
       </Button>
     </div>
   );
