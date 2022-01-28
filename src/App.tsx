@@ -55,16 +55,18 @@ const reducer = (state: State, action: Action): State => {
       return state.filter((task) => task.id !== action.payload.id);
     }
     case "TOGGLE_ACTIVE": {
-      return state.map((task) => {
-        if (task.id === action.payload.id) {
-          return { ...task, completed: !task.completed };
-        }
-        return task;
-      });
+      return state.map((task) =>
+        task.id === action.payload.id
+          ? { ...task, completed: !task.completed }
+          : task
+      );
     }
     case "TOGGLE_ACTIVE_ALL": {
       return state.map((task) => {
-        return { ...task, completed: true };
+        if (task.id in action.payload.idArr) {
+          return { ...task, completed: true };
+        }
+        return task;
       });
     }
     case "TOGGLE_ACTIVE_NONE": {
@@ -89,13 +91,15 @@ function App() {
   const [filteredState, setFilteredState] = useState<State>([]);
 
   useEffect(() => {
-    return setFilteredState(state.filter((task) => handleTabShow(task)));
+    setFilteredState(state.filter((task) => handleTabShow(task)));
   }, [state, choosenTab]);
 
   useEffect(() => {
-    filteredState.every((task) => task.completed)
-      ? setButtonText(ButtonText.UncheckAll)
-      : setButtonText(ButtonText.CheckAll);
+    if (filteredState.every((task) => task.completed)) {
+      setButtonText(ButtonText.UncheckAll);
+    } else {
+      setButtonText(ButtonText.CheckAll);
+    }
   }, [filteredState]);
 
   const addTask = () => {
